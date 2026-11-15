@@ -1,0 +1,13 @@
+<div class="relative">
+  <div class="carousel-container overflow-x-hidden">
+    <div class="carousel" [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
+      <a *ngFor="let item of carouselData" [routerLink]="item.path" class="carousel-item">
+        <img [src]="item.image" alt="carousel slide" />
+      </a>
+    </div>
+  </div>
+
+  <!-- Prev / Next buttons -->
+  <button (click)="prevSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 text-white px-3 py-1 rounded">‹</button>
+  <button (click)="nextSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 text-white px-3 py-1 rounded">›</button>
+</div>
