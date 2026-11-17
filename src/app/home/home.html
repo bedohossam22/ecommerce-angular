@@ -1,5 +1,69 @@
-<div>
-    <div>
-        <app-main-carousel />
+<section class="hero-section" aria-labelledby="hero-title">
+    <div class="hero-copy">
+        <p class="eyebrow"><span></span> THE EVERYDAY EDIT — VOL. 04</p>
+        <h1 id="hero-title">Wear what<br /><em>feels like you.</em></h1>
+        <p class="hero-description">Considered essentials, easy layers, and the little details that make getting dressed feel good.</p>
+        <div class="hero-actions"><button class="dark-button" type="button" (click)="chooseDepartment('All')">Shop the collection <span>↗</span></button><a href="#story">A little about us <span>→</span></a></div>
+        <div class="hero-note"><span class="note-mark">✳</span><span>Made to be worn.<br /><strong>And worn again.</strong></span></div>
     </div>
-</div>
+    <div class="hero-image" role="img" aria-label="A sunlit, relaxed wardrobe with timeless everyday pieces">
+        <div class="hero-image-caption"><span>01 / THE SOFT STRUCTURE EDIT</span><span>SPRING · 2026</span></div>
+        <div class="hero-sticker"><span>LESS,</span><span>BUT</span><span>BETTER</span><i>✳</i></div>
+    </div>
+</section>
+
+<section class="benefit-strip" aria-label="Our promises">
+    <div><span class="benefit-icon">✳</span><span><strong>Made for real life</strong><small>Comfort, without compromise</small></span></div>
+    <div><span class="benefit-icon">↺</span><span><strong>Easy returns</strong><small>30 days to find your fit</small></span></div>
+    <div><span class="benefit-icon">♧</span><span><strong>Thoughtful by design</strong><small>Better materials, less fuss</small></span></div>
+    <div class="benefit-rating"><span class="rating-stars">★★★★★</span><span><strong>Loved by 12,000+</strong><small>People who get dressed too</small></span></div>
+</section>
+
+<section class="collection-section" id="shop" aria-labelledby="collection-title">
+    <div class="collection-heading">
+        <div><p class="eyebrow">A GOOD PLACE TO START</p><h2 id="collection-title">The pieces on repeat<span>.</span></h2></div>
+        <p>Everyday favorites, picked for your kind of everyday.</p>
+    </div>
+
+    <div class="category-tiles">
+        <button class="category-tile women-tile" type="button" (click)="chooseDepartment('All'); categoryChange.emit('Women')"><span class="tile-label">THE HER EDIT</span><span class="tile-title">For her <b>↗</b></span><span class="tile-link">Explore women’s <span>→</span></span></button>
+        <button class="category-tile men-tile" type="button" (click)="chooseDepartment('All'); categoryChange.emit('Men')"><span class="tile-label">THE HIS EDIT</span><span class="tile-title">For him <b>↗</b></span><span class="tile-link">Explore men’s <span>→</span></span></button>
+        <button class="category-tile layers-tile" type="button" (click)="chooseDepartment('All'); categoryChange.emit('All')"><span class="tile-label">GOOD THINGS, GOOD LAYERS</span><span class="tile-title">The new<br />uniform <b>↗</b></span><span class="tile-link">Shop all new things <span>→</span></span></button>
+    </div>
+
+    <div class="products-heading">
+        <div><p class="eyebrow">CURATED FOR YOU</p><h2>Currently into<span>.</span></h2></div>
+        <label class="sort-control"><span>Sort by</span><select [value]="sortOrder()" (change)="sortOrder.set($any($event.target).value)" aria-label="Sort products"><option value="featured">Featured</option><option value="price-low">Price: low to high</option><option value="price-high">Price: high to low</option></select></label>
+    </div>
+    <div class="product-toolbar" aria-label="Filter by collection">
+        <div class="filter-pills">
+            <button type="button" [class.active]="category() === 'All'" (click)="categoryChange.emit('All')">Everything <span>24</span></button>
+            <button type="button" [class.active]="category() === 'Women'" (click)="categoryChange.emit('Women')">For her</button>
+            <button type="button" [class.active]="category() === 'Men'" (click)="categoryChange.emit('Men')">For him</button>
+        </div>
+        <span class="results-count">{{ visibleProducts().length }} pieces</span>
+    </div>
+
+    @if (visibleProducts().length > 0) {
+        <div class="product-grid">
+            @for (product of visibleProducts(); track product.id; let index = $index) {
+                <article class="product-card">
+                    <div class="product-image-wrap">
+                        <img [src]="product.imageUrl" [alt]="product.title" loading="lazy" />
+                        @if (index < 3) { <span class="product-badge">JUST LANDED</span> }
+                        <button class="favorite-button" type="button" [class.is-favorite]="favorites().has(product.id)" [attr.aria-label]="favorites().has(product.id) ? 'Remove from saved items' : 'Save item'" [attr.aria-pressed]="favorites().has(product.id)" (click)="toggleFavorite(product.id)">{{ favorites().has(product.id) ? '♥' : '♡' }}</button>
+                        <button class="quick-add" type="button" (click)="addProduct.emit(product)">Add to bag <span>+</span></button>
+                    </div>
+                    <div class="product-details"><div class="product-brand-row"><span class="product-brand">{{ product.brand }}</span><span class="product-color"><i [style.background-color]="product.color || '#c9c4bb'"></i>{{ product.color || 'Natural' }}</span></div><h3>{{ product.title }}</h3><div class="product-price"><strong>{{ product.price | currency:'USD':'symbol':'1.0-0' }}</strong><del>{{ product.originalPrice | currency:'USD':'symbol':'1.0-0' }}</del><span>{{ product.discountPercent }}% off</span></div></div>
+                </article>
+            }
+        </div>
+    } @else {
+        <div class="no-results"><span>⌕</span><h3>No pieces found just yet.</h3><p>Try a different search or browse the full collection.</p><button class="dark-button" type="button" (click)="categoryChange.emit('All'); activeDepartment.set('All')">See everything</button></div>
+    }
+    <div class="view-all-wrap"><button class="outline-button" type="button" (click)="categoryChange.emit('All'); activeDepartment.set('All')">Explore all the good stuff <span>→</span></button></div>
+</section>
+
+<section class="story-banner" aria-label="Our approach">
+    <div class="story-icon">✳</div><p class="eyebrow">A NOTE ON OUR APPROACH</p><h2>Good style isn’t about<br />having more. <em>It’s about<br />loving what you have.</em></h2><a href="#story">Get to know Atelier <span>↗</span></a>
+</section>

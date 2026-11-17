@@ -2,18 +2,28 @@
 
 @import 'tailwindcss';
 
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
 body {
     margin: 0;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    background: #0b0b0b;
-    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #fff;
+    color: #24261f;
+    -webkit-font-smoothing: antialiased;
 }
 
-.box {
-    box-shadow: #000000 0px;
-    padding: 15px;
+button, input, select {
+    font-family: inherit;
 }
 
-.hideScollbar::-webkit-scrollbar {
-    display: none;
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 2px solid #78816c;
+    outline-offset: 3px;
+}
+
+::selection {
+    background: #dce0d1;
+    color: #24261f;
 }
